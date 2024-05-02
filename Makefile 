@@ -1,0 +1,11 @@
+# Makefile for wc coding challenge
+
+CXX = g++
+CXXFLAGS = -Wall -Werror -std=c++11 -g -ldl
+LIBS = thread.o libinterrupt.a
+
+ccwc: ccwc.cc
+	$(CXX) $(CXXFLAGS) -o $@ ccwc.cc $(LIBS)
+
+clean:
+	rm -rf ccwc ccwc.cc
