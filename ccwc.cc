@@ -4,6 +4,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+
 // #include <set>
 // #include <vector>
 // #include <limits>
@@ -11,15 +12,17 @@
 
 using namespace std; 
 
-void readFile(string filename) {
+int readFile(string filename) {
    ifstream input; 
-   string word; 
    input.open(filename); 
-   // check that the file exists 
-   bool valid = false; 
-   if (input) {
-      valid = true; 
+   if (!input) {
+      // file does not exist 
+      return -1; 
    }
+   input.seekg(0, ios::end); 
+   int file_bytes = input.tellg(); 
+   input.close(); 
+   return file_bytes; 
 }
 
 
@@ -43,8 +46,10 @@ int main(int argc, char** argv) {
       exit(0); 
    }
    // open the file 
-   input.open(argv[arg]); 
-   readFile(filename); 
+   //input.open(argv[arg]); 
+   filename = argv[arg]; 
+   long chars = readFile(filename); 
+   cout << chars << " " << filename << endl; 
    return 0;
 
 }
