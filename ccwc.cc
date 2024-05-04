@@ -42,8 +42,25 @@ int readFile(string filename, int line, int words, int chars) {
    if (chars) {
       int num_chars = 0; 
       int extra_chars = 0; 
-      while (input >> word) {
-         num_chars+= word.size(); 
+      while (getline(input, word)){
+         // num_chars += word.size(); 
+         int last = 0; 
+         for (int i = 0; i < word.size(); i++) {
+            char s= word[i]; 
+            if ((s&0x80) != 0) { 
+               if (last) {
+                  continue; 
+               }
+               else {
+                  num_chars++; 
+               }
+               last = 1; 
+            }
+            else {
+               last = 0; 
+               num_chars++; 
+            }
+         }
          num_chars++; 
          // if (mblen(&letter,0) == 1) {
          //    cout << "extra" << endl; 
