@@ -12,7 +12,14 @@
 using namespace std; 
 
 void readFile(string filename) {
-
+   ifstream input; 
+   string word; 
+   input.open(filename); 
+   // check that the file exists 
+   bool valid = false; 
+   if (input) {
+      valid = true; 
+   }
 }
 
 
