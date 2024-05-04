@@ -43,25 +43,19 @@ int readFile(string filename, int line, int words, int chars) {
       int num_chars = 0; 
       int extra_chars = 0; 
       while (getline(input, word)){
-         // num_chars += word.size(); 
-         int last = 0; 
-         for (int i = 0; i < word.size(); i++) {
-            char s= word[i]; 
-            if ((s&0x80) != 0) { 
-               if (last) {
-                  continue; 
-               }
-               else {
-                  num_chars++; 
-               }
-               last = 1; 
-            }
-            else {
-               last = 0; 
-               num_chars++; 
-            }
-         }
+         // gets just bytes 
+         num_chars += word.size(); 
          num_chars++; 
+         for (int i = 0; i < word.size(); i++) {
+            int remove = mblen(&word, 4); 
+            //cout << "remove? " << remove << endl; 
+            if (remove > 1) {
+            cout << "remove? " << remove << endl; 
+               num_chars -= remove; 
+               i+= remove; 
+            }
+
+         }
          // if (mblen(&letter,0) == 1) {
          //    cout << "extra" << endl; 
          //    extra_chars++; 
