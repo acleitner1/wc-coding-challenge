@@ -48,7 +48,7 @@ int readFile(string filename, int line, int words, int chars) {
          num_chars++; 
          int last = 0; 
          int last_counter = 1; 
-         // check for multibyte characters (max size, 2 bytes and if one is found, delete a char). 
+         // check for multibyte characters (max size, 2 bytes and if one is found, delete a)
          for (int i = 0; i < word.size(); i++) {
             if ((0x80 & word[i])!=0) {
                if (last && last_counter < 3) {
