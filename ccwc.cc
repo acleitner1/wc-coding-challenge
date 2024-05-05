@@ -46,29 +46,27 @@ int readFile(string filename, int line, int words, int chars) {
          // gets just bytes 
          num_chars += word.size(); 
          num_chars++; 
+         int last = 0; 
+         int last_counter = 1; 
+         // check for multibyte characters (max size, 2 bytes and if one is found, delete a char). 
          for (int i = 0; i < word.size(); i++) {
-            int remove = mblen(&word, 4); 
-            //cout << "remove? " << remove << endl; 
-            if (remove > 1) {
-            cout << "remove? " << remove << endl; 
-               num_chars -= remove; 
-               i+= remove; 
+            if ((0x80 & word[i])!=0) {
+               if (last && last_counter < 3) {
+                  num_chars--; 
+                  last_counter++; 
+               }
+               else {
+                  last_counter = 1; 
+               }
+               last = 1; 
             }
-
+            else {
+               last = 0; 
+               last_counter = 1; 
+            }
          }
-         // if (mblen(&letter,0) == 1) {
-         //    cout << "extra" << endl; 
-         //    extra_chars++; 
-         // }
-         // else {
-         //    num_chars++; 
-         // }
       }
-      //num_chars += (extra_chars / 4); 
-      // while (getline(input, word)) {
-      //    num_chars += word._mblen(); 
-      // }
-   
+
       return num_chars; 
    }
    // generic case 
