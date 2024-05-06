@@ -91,12 +91,30 @@ int main(int argc, char** argv) {
    int l = 0;  
    int w = 0; 
    int c = 0; 
-   // iterate through the flags to get to the file 
+   filename = argv[arg]; 
+   // base case
+   if (argc == 2) {
+      input.open(filename); 
+      string word; 
+      int num_lines = 0; 
+      while (getline(input, word)) {
+         num_lines++; 
+      }
+      int num_words = 0; 
+      input.close(); 
+      input.open(filename); 
+      while (input >> word) {
+         num_words++; 
+      }
+      input.close(); 
+      input.open(filename); 
+      input.seekg(0, ios::end); 
+      int file_bytes = input.tellg(); 
+      input.close(); 
+      cout << num_lines << '\t' << num_words << '\t' << file_bytes << '\t' << filename << endl; 
+      return 0; 
+   }
    while (arg < argc && argv[arg][0] == '-') {
-      // if (argv[arg].length() != 2) {
-      //    cout << "improper flag" << endl; 
-      //    exit(0); 
-      // }
       if (argv[arg][1] == 'l') {
          l = 1; 
       }
@@ -112,11 +130,10 @@ int main(int argc, char** argv) {
       cout << "must include a txt file" << endl; 
       exit(0); 
    }
-   // open the file 
-   //input.open(argv[arg]); 
-   filename = argv[arg]; 
    long chars = readFile(filename, l, w, c); 
    cout << chars << " " << filename << endl; 
+   // open the file 
+   //input.open(argv[arg]); 
    return 0;
 
 }
