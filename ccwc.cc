@@ -93,8 +93,47 @@ int main(int argc, char** argv) {
    int c = 0; 
    filename = argv[arg]; 
    // base case
+   for (int i = 0; i < argc; i++) {
+      cout << argv[i] << endl; 
+   }
+   input.open(filename); 
+   if (!input) {
+      string word; 
+      int num_lines = 0; 
+      int num_words = 0; 
+      int file_bytes = 0; 
+      // while (cin >> word) {
+      //    file_bytes += word.size(); 
+      //    file_bytes++; 
+      //    num_words++; 
+      //    cout << "word: " << word << "..."<< endl; 
+      //    if (word[word.size()-1] == '\n') {
+      //       num_lines++; 
+      //    }
+      // }
+      //istream temp_cin = cin; 
+      // while (cin >> word) {
+      //    num_words++; 
+      // }
+      // cin.clear(); 
+      // cin.get(); 
+      // word = ""; 
+      while (getline(cin, word)) {
+         int position = 0; 
+         file_bytes += word.size(); 
+         file_bytes++;
+         num_lines++; 
+      }
+      //input.open(filename); 
+      //while
+      // int num_words = 0; 
+      // while (cin >> word) {
+      //    num_words++; 
+      // }
+      cout << num_lines << '\t' << num_words << '\t' << file_bytes << '\t' << filename << endl; 
+      return 0; 
+   }
    if (argc == 2) {
-      input.open(filename); 
       string word; 
       int num_lines = 0; 
       while (getline(input, word)) {
