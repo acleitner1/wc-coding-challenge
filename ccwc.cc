@@ -5,6 +5,11 @@
 #include <iostream>
 #include <string>
 
+// TODO: 
+// Make the cin input work for flags 
+// update the non cin version to use the single loop 
+// update the flags to still only use the single loop 
+
 // #include <set>
 // #include <vector>
 // #include <limits>
