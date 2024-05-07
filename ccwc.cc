@@ -102,27 +102,28 @@ int main(int argc, char** argv) {
       int num_lines = 0; 
       int num_words = 0; 
       int file_bytes = 0; 
-      // while (cin >> word) {
-      //    file_bytes += word.size(); 
-      //    file_bytes++; 
-      //    num_words++; 
-      //    cout << "word: " << word << "..."<< endl; 
-      //    if (word[word.size()-1] == '\n') {
-      //       num_lines++; 
-      //    }
-      // }
-      //istream temp_cin = cin; 
-      // while (cin >> word) {
-      //    num_words++; 
-      // }
-      // cin.clear(); 
-      // cin.get(); 
-      // word = ""; 
+      int startWord = 0; 
       while (getline(cin, word)) {
          int position = 0; 
          file_bytes += word.size(); 
          file_bytes++;
          num_lines++; 
+         //count words in the line by looking at when a word starts and adding when a word stops 
+         for (int i = 0; i < word.size(); i++) {
+            if (word[i] != ' ' && word[i] != '\n' && word[i] != '\r' && word[i] != '\t'){
+               startWord = 1;
+             }
+         // when the word stops 
+         if ((word[i] == ' ' || word[i] == '\n' || word[i] == '\r' || word[i] == '\t') && startWord == 1){ \
+            num_words++; 
+            startWord = 0; 
+         }
+         }
+         // cout << "..//" << word << "\n\\..." << endl; 
+         // cout << "word size: " << word.size() << endl; 
+         // cout << "words after: " << num_words << endl; 
+         // number of words should be number of spaces + 1, but that's not quite right 
+         
       }
       //input.open(filename); 
       //while
