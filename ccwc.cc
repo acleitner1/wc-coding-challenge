@@ -9,11 +9,8 @@
 // Make the cin input work for flags 
 // update the non cin version to use the single loop 
 // update the flags to still only use the single loop 
+// Clean up the code 
 
-// #include <set>
-// #include <vector>
-// #include <limits>
-// #include <algorithm>
 
 using namespace std; 
 
@@ -167,7 +164,7 @@ int main(int argc, char** argv) {
             return 0; 
          }
          if (w) { 
-            
+
          }
          if (c)
       }
