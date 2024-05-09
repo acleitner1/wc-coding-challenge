@@ -108,6 +108,7 @@ int main(int argc, char** argv) {
       int num_words = 0; 
       int file_bytes = 0; 
       int startWord = 0; 
+      int num_chars = 0; 
       while (getline(cin, word)) {
          int position = 0; 
          file_bytes += word.size(); 
@@ -123,19 +124,53 @@ int main(int argc, char** argv) {
             num_words++; 
             startWord = 0; 
          }
+         num_chars += word.size(); 
+         num_chars++; 
+         int last = 0; 
+         int last_counter = 1; 
+         // check for multibyte characters (max size, 2 bytes and if one is found, delete a)
+         for (int i = 0; i < word.size(); i++) {
+            if ((0x80 & word[i])!=0) {
+               if (last && last_counter < 3) {
+                  num_chars--; 
+                  last_counter++; 
+               }
+               else {
+                  last_counter = 1; 
+               }
+               last = 1; 
+            }
+            else {
+               last = 0; 
+               last_counter = 1; 
+            }
          }
-         // cout << "..//" << word << "\n\\..." << endl; 
-         // cout << "word size: " << word.size() << endl; 
-         // cout << "words after: " << num_words << endl; 
-         // number of words should be number of spaces + 1, but that's not quite right 
-         
       }
-      //input.open(filename); 
-      //while
-      // int num_words = 0; 
-      // while (cin >> word) {
-      //    num_words++; 
-      // }
+
+         }
+      }
+      while (arg < argc && argv[arg][0] == '-') {
+         if (argv[arg][1] == 'l') {
+            l = 1; 
+         }
+         if (argv[arg][1] == 'w') {
+            w = 1; 
+         }
+         if (argv[arg][1] == 'm') {
+            c = 1; 
+         }
+         arg++; 
+      }
+      if (l) {
+         if (w && c) {
+            cout << num_words << '\t' << num_chars << '\t' << endl; 
+            return 0; 
+         }
+         if (w) { 
+            
+         }
+         if (c)
+      }
       cout << num_lines << '\t' << num_words << '\t' << file_bytes << '\t' << filename << endl; 
       return 0; 
    }
