@@ -5,13 +5,6 @@
 #include <iostream>
 #include <string>
 
-// TODO: 
-// Make the cin input work for flags 
-// update the non cin version to use the single loop 
-// update the flags to still only use the single loop 
-// Clean up the code 
-
-
 using namespace std; 
 
 /*
@@ -77,30 +70,8 @@ int main(int argc, char** argv) {
             }
          }
       }
-      while (arg < argc && argv[arg][0] == '-') {
-         if (argv[arg][1] == 'l') {
-            l = 1; 
-            cout << num_lines << '\t'; 
-         }
-         if (argv[arg][1] == 'w') {
-            w = 1; 
-            cout << num_words << '\t'; 
-         }
-         if (argv[arg][1] == 'm') {
-            c = 1; 
-           cout << num_chars << '\t'; 
-         }
-         arg++; 
-      }
-      if (!l && !w && !c) {
-         cout << num_lines << '\t' << num_words << '\t' << file_bytes << '\t' << filename << endl; 
-      }
-      else {
-         cout << filename << endl; 
-      }
-      return 0; 
    }
-   if (!input) {
+   else if (!input) {
       while (getline(cin, word)) {
          int position = 0; 
          file_bytes += word.size(); 
@@ -140,29 +111,42 @@ int main(int argc, char** argv) {
             }
          }
       }
-      while (arg < argc && argv[arg][0] == '-') {
-         if (argv[arg][1] == 'l') {
-            l = 1; 
-            cout << num_lines << '\t'; 
-         }
-         if (argv[arg][1] == 'w') {
-            w = 1; 
-            cout << num_words << '\t'; 
-         }
-         if (argv[arg][1] == 'm') {
-            c = 1; 
-           cout << num_chars << '\t'; 
-         }
-         arg++; 
+   }
+   while (arg < argc && argv[arg][0] == '-') {
+      if (argv[arg][1] == 'l') {
+         l = 1; 
+         cout << num_lines << '\t'; 
       }
-      if (!l && !w && !c) {
-         cout << num_lines << '\t' << num_words << '\t' << file_bytes << endl; 
+      if (argv[arg][1] == 'w') {
+         w = 1; 
+         cout << num_words << '\t'; 
+      }
+      if (argv[arg][1] == 'm') {
+         c = 1; 
+         cout << num_chars << '\t'; 
+      }
+      arg++; 
+   }
+   input.close(); 
+   input.open(filename); 
+   if (!l && !w && !c) {
+      cout << num_lines << '\t' << num_words << '\t' << file_bytes << '\t'; 
+      if (input) {
+         cout << filename << endl; 
       }
       else {
          cout << endl; 
       }
-      return 0; 
    }
+   else {
+      if (input) {
+         cout << filename << endl; 
+      }
+      else { 
+         cout << endl; 
+      }
+   }
+   input.close(); 
    return 0;
 }
 
