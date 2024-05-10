@@ -10,7 +10,8 @@ using namespace std;
 /*
 * main - intializes ccwc 
 */
-int main(int argc, char** argv) {   
+int main(int argc, char** argv) {  
+   // initialize counters, base number of words, chars, bytes, etc.  
    ifstream input; 
    string filename; 
    int arg = 1;
@@ -22,6 +23,8 @@ int main(int argc, char** argv) {
    int file_bytes = 0; 
    int startWord = 0; 
    int num_chars = 0; 
+
+   // pull filename from command line if it exists 
    while (arg < argc && argv[arg][0] == '-') {
       arg++; 
    }
@@ -30,33 +33,43 @@ int main(int argc, char** argv) {
    }
    arg = 1; 
    string word; 
-   // base case
    input.open(filename); 
+
+   // If filename present and extant
    if (input) {
+
+      // Read each line 
       while (getline(input, word)) {
          int position = 0; 
+
+         // count number of bytes and number of lines 
          file_bytes += word.size(); 
          file_bytes++;
          num_lines++; 
+
          //count words in the line by looking at when a word starts and adding when a word stops 
          for (int i = 0; i < word.size(); i++) {
             if (word[i] != ' ' && word[i] != '\n' && word[i] != '\r' && word[i] != '\t'){
                startWord = 1;
              }
 
-            // when the word stops 
             if ((word[i] == ' ' || word[i] == '\n' || word[i] == '\r' || word[i] == '\t') && startWord == 1){ \
                num_words++; 
                startWord = 0; 
             }
          }
+
+         // count number of chars 
          num_chars += word.size(); 
          num_chars++; 
+
+         // check for multibyte characters (max size, 2 bytes and if one is found, delete a)
          int last = 0; 
          int last_counter = 1; 
-         // check for multibyte characters (max size, 2 bytes and if one is found, delete a)
          for (int i = 0; i < word.size(); i++) {
+
             if ((0x80 & word[i])!=0) {
+
                if (last && last_counter < 3) {
                   num_chars--; 
                   last_counter++; 
@@ -73,29 +86,37 @@ int main(int argc, char** argv) {
          }
       }
    }
+   // If no filename, proceed but using standard input 
    else if (!input) {
+
+      // read each line 
       while (getline(cin, word)) {
          int position = 0; 
+
+         // count number of bytes and number of lines 
          file_bytes += word.size(); 
          file_bytes++;
          num_lines++; 
+
          //count words in the line by looking at when a word starts and adding when a word stops 
          for (int i = 0; i < word.size(); i++) {
             if (word[i] != ' ' && word[i] != '\n' && word[i] != '\r' && word[i] != '\t'){
                startWord = 1;
              }
-
-            // when the word stops 
+            
             if ((word[i] == ' ' || word[i] == '\n' || word[i] == '\r' || word[i] == '\t') && startWord == 1){ \
                num_words++; 
                startWord = 0; 
             }
          }
+
+         // count number of chars 
          num_chars += word.size(); 
          num_chars++; 
+
+         // check for multibyte characters (max size, 2 bytes and if one is found, delete a)
          int last = 0; 
          int last_counter = 1; 
-         // check for multibyte characters (max size, 2 bytes and if one is found, delete a)
          for (int i = 0; i < word.size(); i++) {
             if ((0x80 & word[i])!=0) {
                if (last && last_counter < 3) {
@@ -114,6 +135,8 @@ int main(int argc, char** argv) {
          }
       }
    }
+
+   // determine which output types have been requested and print them
    while (arg < argc && argv[arg][0] == '-') {
       if (argv[arg][1] == 'l') {
          l = 1; 
@@ -131,6 +154,8 @@ int main(int argc, char** argv) {
    }
    input.close(); 
    input.open(filename); 
+
+   // print all information if no flags 
    if (!l && !w && !c) {
       cout << num_lines << '\t' << num_words << '\t' << file_bytes << '\t'; 
       if (input) {
