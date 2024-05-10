@@ -93,19 +93,18 @@ int main(int argc, char** argv) {
    int l = 0;  
    int w = 0; 
    int c = 0; 
+   int num_lines = 0; 
+   int num_words = 0; 
+   int file_bytes = 0; 
+   int startWord = 0; 
+   int num_chars = 0; 
    filename = argv[arg]; 
    // base case
-   for (int i = 0; i < argc; i++) {
-      cout << argv[i] << endl; 
-   }
    input.open(filename); 
    if (!input) {
       string word; 
-      int num_lines = 0; 
-      int num_words = 0; 
-      int file_bytes = 0; 
-      int startWord = 0; 
-      int num_chars = 0; 
+      
+
       while (getline(cin, word)) {
          int position = 0; 
          file_bytes += word.size(); 
@@ -116,10 +115,12 @@ int main(int argc, char** argv) {
             if (word[i] != ' ' && word[i] != '\n' && word[i] != '\r' && word[i] != '\t'){
                startWord = 1;
              }
-         // when the word stops 
-         if ((word[i] == ' ' || word[i] == '\n' || word[i] == '\r' || word[i] == '\t') && startWord == 1){ \
-            num_words++; 
-            startWord = 0; 
+
+            // when the word stops 
+            if ((word[i] == ' ' || word[i] == '\n' || word[i] == '\r' || word[i] == '\t') && startWord == 1){ \
+               num_words++; 
+               startWord = 0; 
+            }
          }
          num_chars += word.size(); 
          num_chars++; 
@@ -143,41 +144,34 @@ int main(int argc, char** argv) {
             }
          }
       }
-
-         }
-      }
       while (arg < argc && argv[arg][0] == '-') {
          if (argv[arg][1] == 'l') {
             l = 1; 
+            cout << num_lines << '\t'; 
          }
          if (argv[arg][1] == 'w') {
             w = 1; 
+            cout << num_words << '\t'; 
          }
          if (argv[arg][1] == 'm') {
             c = 1; 
+           cout << num_chars << '\t'; 
          }
          arg++; 
       }
-      if (l) {
-         if (w && c) {
-            cout << num_words << '\t' << num_chars << '\t' << endl; 
-            return 0; 
-         }
-         if (w) { 
-
-         }
-         if (c)
+      if (!l && !w && !c) {
+         cout << num_lines << '\t' << num_words << '\t' << file_bytes << endl; 
       }
-      cout << num_lines << '\t' << num_words << '\t' << file_bytes << '\t' << filename << endl; 
+      else {
+         cout << endl; 
+      }
       return 0; 
    }
    if (argc == 2) {
       string word; 
-      int num_lines = 0; 
       while (getline(input, word)) {
          num_lines++; 
       }
-      int num_words = 0; 
       input.close(); 
       input.open(filename); 
       while (input >> word) {
