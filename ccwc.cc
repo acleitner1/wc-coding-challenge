@@ -26,7 +26,11 @@ int main(int argc, char** argv) {
    int file_bytes = 0; 
    int startWord = 0; 
    int num_chars = 0; 
+   while (arg < argc && argv[arg][0] == '-') {
+      arg++; 
+   }
    filename = argv[arg]; 
+   arg = 1; 
    string word; 
    // base case
    input.open(filename); 
