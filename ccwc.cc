@@ -11,10 +11,6 @@ using namespace std;
 * main - intializes ccwc 
 */
 int main(int argc, char** argv) {   
-   if (argc < 2) {
-      cout << "must include a txt file" << endl; 
-      exit(0); 
-   }
    ifstream input; 
    string filename; 
    int arg = 1;
@@ -29,7 +25,9 @@ int main(int argc, char** argv) {
    while (arg < argc && argv[arg][0] == '-') {
       arg++; 
    }
-   filename = argv[arg]; 
+   if (arg != argc) {
+      filename = argv[arg]; 
+   }
    arg = 1; 
    string word; 
    // base case
